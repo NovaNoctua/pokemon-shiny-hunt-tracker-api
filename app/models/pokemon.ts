@@ -69,7 +69,5 @@ export default class Pokemon extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
-  // FK
-
   // Relations
 }
