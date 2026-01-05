@@ -5,8 +5,10 @@ export default class extends BaseSchema {
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
-      // Attributes
+      // PK
       table.increments('id')
+
+      // Attributes
       table.string('name')
       table.string('base_odds')
       table.timestamp('created_at')
