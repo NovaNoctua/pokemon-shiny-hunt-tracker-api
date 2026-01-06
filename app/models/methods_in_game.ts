@@ -1,5 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import Game from './game.js'
+import Method from './method.js'
 
 export default class MethodsInGame extends BaseModel {
   // Attributes
@@ -20,4 +23,9 @@ export default class MethodsInGame extends BaseModel {
   declare methodId: number
 
   // Relations
+  @belongsTo(() => Game)
+  declare game: BelongsTo<typeof Game>
+
+  @belongsTo(() => Method)
+  declare method: BelongsTo<typeof Method>
 }

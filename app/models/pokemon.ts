@@ -1,5 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
+import CollectionEntry from './collection_entry.js'
+import type { HasMany } from '@adonisjs/lucid/types/relations'
+import CurrentlyHunting from './currently_hunting.js'
 
 export default class Pokemon extends BaseModel {
   // Attributes
@@ -70,4 +73,9 @@ export default class Pokemon extends BaseModel {
   declare updatedAt: DateTime
 
   // Relations
+  @hasMany(() => CollectionEntry)
+  declare collectionEntries: HasMany<typeof CollectionEntry>
+
+  @hasMany(() => CurrentlyHunting)
+  declare currentlyHunting: HasMany<typeof CurrentlyHunting>
 }
