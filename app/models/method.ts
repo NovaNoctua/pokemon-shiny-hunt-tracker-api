@@ -1,5 +1,9 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
+import type { HasMany } from '@adonisjs/lucid/types/relations'
+import CollectionEntry from './collection_entry.js'
+import CurrentlyHunting from './currently_hunting.js'
+import MethodsInGame from './methods_in_game.js'
 
 export default class Method extends BaseModel {
   // Attributes
@@ -19,4 +23,12 @@ export default class Method extends BaseModel {
   declare updatedAt: DateTime
 
   // Relations
+  @hasMany(() => CollectionEntry)
+  declare collectionEntries: HasMany<typeof CollectionEntry>
+
+  @hasMany(() => CurrentlyHunting)
+  declare currentlyHunting: HasMany<typeof CurrentlyHunting>
+
+  @hasMany(() => MethodsInGame)
+  declare methodsInGame: HasMany<typeof MethodsInGame>
 }
