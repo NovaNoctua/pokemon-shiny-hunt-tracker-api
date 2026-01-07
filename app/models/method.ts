@@ -16,6 +16,9 @@ export default class Method extends BaseModel {
   @column()
   declare baseOdds: string
 
+  @column()
+  declare maxOdds: string
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

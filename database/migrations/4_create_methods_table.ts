@@ -11,6 +11,7 @@ export default class extends BaseSchema {
       // Attributes
       table.string('name')
       table.string('base_odds')
+      table.string('max_odds')
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })
