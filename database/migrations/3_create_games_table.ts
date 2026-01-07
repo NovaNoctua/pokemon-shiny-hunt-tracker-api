@@ -11,17 +11,8 @@ export default class extends BaseSchema {
       // Attributes
       table.string('name').notNullable()
       table.integer('generation').notNullable()
-      table
-        .enum('platform', [
-          'Game Boy',
-          'Game Boy Color',
-          'Game Boy Advance',
-          'Nintendo DS',
-          'Nintendo 3DS',
-          'Nintendo Switch',
-        ])
-        .notNullable()
-      table.string('image_path').notNullable()
+      table.string('platform').notNullable()
+      table.string('image_path').nullable()
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })
