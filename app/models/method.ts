@@ -14,7 +14,7 @@ export default class Method extends BaseModel {
   declare name: string
 
   @column()
-  declare base_odds: string
+  declare baseOdds: string
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

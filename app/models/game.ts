@@ -17,16 +17,10 @@ export default class Game extends BaseModel {
   declare generation: number
 
   @column()
-  declare platform:
-    | 'Game Boy'
-    | 'Game Boy Color'
-    | 'Game Boy Advance'
-    | 'Nintendo DS'
-    | 'Nintendo 3DS'
-    | 'Nintendo Switch'
+  declare platform: string
 
   @column()
-  declare imagePath: string
+  declare imagePath: string | null
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

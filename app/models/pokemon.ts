@@ -18,50 +18,11 @@ export default class Pokemon extends BaseModel {
   @column()
   declare generation: number
 
-  @column()
-  declare type1:
-    | 'Normal'
-    | 'Fire'
-    | 'Water'
-    | 'Grass'
-    | 'Electric'
-    | 'Ice'
-    | 'Fighting'
-    | 'Poison'
-    | 'Ground'
-    | 'Flying'
-    | 'Psychic'
-    | 'Bug'
-    | 'Rock'
-    | 'Ghost'
-    | 'Dragon'
-    | 'Dark'
-    | 'Steel'
-    | 'Fairy'
+  @column({ columnName: 'type1' })
+  declare type1: string
 
-  @column()
-  declare type2:
-    | 'Normal'
-    | 'Fire'
-    | 'Water'
-    | 'Grass'
-    | 'Electric'
-    | 'Ice'
-    | 'Fighting'
-    | 'Poison'
-    | 'Ground'
-    | 'Flying'
-    | 'Psychic'
-    | 'Bug'
-    | 'Rock'
-    | 'Ghost'
-    | 'Dragon'
-    | 'Dark'
-    | 'Steel'
-    | 'Fairy'
-
-  @column()
-  declare form: 'Alola' | 'Galar' | 'Hisui' | 'Paldea'
+  @column({ columnName: 'type2' })
+  declare type2: string | null
 
   @column()
   declare imagePath: string
