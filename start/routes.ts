@@ -14,7 +14,6 @@ import UsersController from '#controllers/users_controller'
 import PokemonController from '#controllers/pokemon_controller'
 import GamesController from '#controllers/games_controller'
 import MethodsController from '#controllers/methods_controller'
-import CollectionsController from '#controllers/entries_controller'
 import HuntsController from '#controllers/hunts_controller'
 import EntriesController from '#controllers/entries_controller'
 

@@ -27,7 +27,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare password: string
 
   @column()
-  declare profilePicturePath: string | null
+  declare profilePicturePath: string
 
   @column()
   declare isAdmin: boolean
