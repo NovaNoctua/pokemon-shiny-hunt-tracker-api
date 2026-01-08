@@ -6,7 +6,7 @@ import Pokemon from './pokemon.js'
 import Game from './game.js'
 import Method from './method.js'
 
-export default class CurrentlyHunting extends BaseModel {
+export default class Hunt extends BaseModel {
   // Attributes
   @column({ isPrimary: true })
   declare id: number

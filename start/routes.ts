@@ -14,8 +14,9 @@ import UsersController from '#controllers/users_controller'
 import PokemonController from '#controllers/pokemon_controller'
 import GamesController from '#controllers/games_controller'
 import MethodsController from '#controllers/methods_controller'
-import CollectionsController from '#controllers/collections_controller'
+import CollectionsController from '#controllers/entries_controller'
 import HuntsController from '#controllers/hunts_controller'
+import EntriesController from '#controllers/entries_controller'
 
 // Authentication
 router
@@ -84,11 +85,11 @@ router
 // Collection Entries CRUD
 router
   .group(() => {
-    router.get('/', [CollectionsController, 'index'])
-    router.get('/:id', [CollectionsController, 'show'])
-    router.post('/', [CollectionsController, 'store'])
-    router.patch('/:id', [CollectionsController, 'update'])
-    router.delete('/:id', [CollectionsController, 'destroy'])
+    router.get('/', [EntriesController, 'index'])
+    router.get('/:id', [EntriesController, 'show'])
+    router.post('/', [EntriesController, 'store'])
+    router.patch('/:id', [EntriesController, 'update'])
+    router.delete('/:id', [EntriesController, 'destroy'])
   })
   .prefix('collection')
   .use(middleware.verifyUserOwnershipEntry())

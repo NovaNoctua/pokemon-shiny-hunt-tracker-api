@@ -6,7 +6,7 @@ import Method from './method.js'
 import Pokemon from './pokemon.js'
 import User from './user.js'
 
-export default class CollectionEntry extends BaseModel {
+export default class Entry extends BaseModel {
   // Attributes
   @column({ isPrimary: true })
   declare id: number

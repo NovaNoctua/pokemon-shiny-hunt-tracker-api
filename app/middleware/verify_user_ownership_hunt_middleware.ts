@@ -1,16 +1,16 @@
-import CurrentlyHunting from '#models/currently_hunting'
+import Hunt from '#models/hunt'
 import type { HttpContext } from '@adonisjs/core/http'
 import type { NextFn } from '@adonisjs/core/types/http'
 
 export default class VerifyUserOwnershipHuntMiddleware {
   async handle(ctx: HttpContext, next: NextFn) {
-    const { request, auth, response, params } = ctx
+    const { auth, response, params } = ctx
 
     if (!auth.isAuthenticated || !auth.user) {
       return response.unauthorized({ message: 'You must be logged in' })
     }
 
-    const hunt = await CurrentlyHunting.findOrFail(params.id)
+    const hunt = await Hunt.findOrFail(params.id)
     const userId = hunt.userId
     const huntId = hunt.id
 

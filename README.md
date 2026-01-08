@@ -101,7 +101,7 @@ Provide a **REST API** to manage Pokémon data, games, shiny collections, and sh
 | generation | int    |       |
 | version    | string |       |
 
-### ShinyCollectionEntry
+### Entry
 
 | Field                                                   | Type         | Notes    |
 | ------------------------------------------------------- | ------------ | -------- |
@@ -113,7 +113,7 @@ Provide a **REST API** to manage Pokémon data, games, shiny collections, and sh
 | notes                                                   | text         | optional |
 | **Constraint:** unique `(user_id, pokemon_id, game_id)` |              |          |
 
-### ShinyHunt
+### Hunt
 
 | Field      | Type         | Notes                          |
 | ---------- | ------------ | ------------------------------ |
@@ -131,10 +131,10 @@ Provide a **REST API** to manage Pokémon data, games, shiny collections, and sh
 
 ### Relationships
 
-- User → has many → ShinyCollectionEntry
-- User → has many → ShinyHunt
-- Pokemon → has many → ShinyCollectionEntry / ShinyHunt
-- Game → has many → ShinyCollectionEntry / ShinyHunt
+- User → has many → Entry
+- User → has many → Hunt
+- Pokemon → has many → Entry / Hunt
+- Game → has many → Entry / Hunt
 
 ---
 
