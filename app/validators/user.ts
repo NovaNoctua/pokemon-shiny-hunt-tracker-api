@@ -16,7 +16,18 @@ export const userValidator = (userId?: number) =>
           return !user
         })
         .optional(),
-      email: vine.string().email().optional(),
+      email: vine
+        .string()
+        .email()
+        .unique(async (query, field) => {
+          const q = query.from('users').where('email', field)
+          if (userId) {
+            q.whereNot('id', userId)
+          }
+          const user = await q.first()
+          return !user
+        })
+        .optional(),
       profilePicture: vine.file({ extnames: ['jpg', 'png', 'jpeg', 'gif'] }).optional(),
     })
   )
