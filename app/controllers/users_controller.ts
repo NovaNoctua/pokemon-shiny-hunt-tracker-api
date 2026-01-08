@@ -33,11 +33,15 @@ export default class UsersController {
       profilePicturePath = `uploads/profilePictures/${fileName}`
     }
 
-    await ownUser.merge({
-      username,
-      email,
-      profilePicturePath,
-    })
+    await ownUser
+      .merge({
+        username,
+        email,
+        profilePicturePath,
+      })
+      .save()
+
+    return response.ok({ message: 'Changes successful' })
   }
   async destroy() {}
 }
