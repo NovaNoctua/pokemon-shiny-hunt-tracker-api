@@ -41,7 +41,15 @@ export default class UsersController {
       })
       .save()
 
-    return response.ok({ message: 'Changes successful' })
+    return response.ok({ message: 'Changes successfully done' })
   }
-  async destroy() {}
+  async destroy({ auth, response }: HttpContext) {
+    const userId = auth.user!.id
+
+    const user = await User.findOrFail(userId)
+
+    await user.delete()
+
+    return response.ok({ message: 'User successfully deleted' })
+  }
 }
