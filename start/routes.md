@@ -18,6 +18,8 @@
 
 - Change email
 
+- Delete User
+
 ## Pokemon
 
 - Read all Pokemons
