@@ -38,9 +38,14 @@ export default class AuthController {
     try {
       const user = await User.verifyCredentials(username, password)
       await auth.use('web').login(user)
-      return response.ok({ message: 'Login successful', user: user.serialize() })
+      return response.ok({ message: 'Logged in successfully', user: user.serialize() })
     } catch (error) {
       return response.unauthorized({ message: 'Invalid email or password' })
     }
+  }
+
+  async logout({ auth, response }: HttpContext) {
+    await auth.use('web').logout()
+    return response.ok({ message: 'Logged out successfully' })
   }
 }
