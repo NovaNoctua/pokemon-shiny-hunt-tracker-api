@@ -14,7 +14,7 @@ export const registerValidator = vine.compile(
       .string()
       .email()
       .unique(async (query, field) => {
-        const user = await query.from('users').where('email', field)
+        const user = await query.from('users').where('email', field).first()
         return !user
       }),
     password: vine.string().minLength(8).maxLength(512).confirmed(),
