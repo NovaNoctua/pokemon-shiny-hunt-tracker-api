@@ -11,7 +11,7 @@ export const registerValidator = vine.compile(
         return !user
       }),
     email: vine.string().email(),
-    password: vine.string().minLength(8).maxLength(512),
+    password: vine.string().minLength(8).maxLength(512).confirmed(),
     profilePicture: vine.file({ extnames: ['jpg', 'png', 'jpeg', 'gif'] }).optional(),
   })
 )
