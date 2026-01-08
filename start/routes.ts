@@ -91,5 +91,4 @@ router
     router.delete('/:id', [CollectionsController, 'destroy'])
   })
   .prefix('collection')
-  // Create and use the middleware that makes sure the user is the one who created the collection
-  .use(middleware.auth())
+  .use(middleware.verifyUserOwnershipEntry())
