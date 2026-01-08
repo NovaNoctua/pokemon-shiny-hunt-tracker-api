@@ -13,11 +13,7 @@ export default class PokemonController {
   }
 
   async show({ params, response }: HttpContext) {
-    try {
-      const pokemon = await Pokemon.findOrFail(params.id)
-      return response.ok(pokemon)
-    } catch (error) {
-      return response.notFound({ message: 'This pokemon number does not exist' })
-    }
+    const pokemon = await Pokemon.findOrFail(params.id)
+    return response.ok(pokemon)
   }
 }
