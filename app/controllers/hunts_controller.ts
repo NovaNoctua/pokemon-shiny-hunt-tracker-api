@@ -1,6 +1,6 @@
 import Entry from '#models/entry'
 import Hunt from '#models/hunt'
-import { entryValidator } from '#validators/entry'
+import { entryHuntValidator, entryValidator } from '#validators/entry'
 import { huntValidator } from '#validators/hunt'
 import type { HttpContext } from '@adonisjs/core/http'
 import { DateTime } from 'luxon'
@@ -10,7 +10,11 @@ export default class HuntsController {
     const user = auth.user!
     const userId = user.id
 
-    const hunts = await Hunt.query().where('user_id', userId)
+    const hunts = await Hunt.query()
+      .where('user_id', userId)
+      .preload('game')
+      .preload('method')
+      .preload('pokemon')
 
     return response.ok(hunts)
   }
@@ -116,7 +120,7 @@ export default class HuntsController {
       nickname = hunt.pokemon.name,
       notes = '',
       phaseNumber = 0,
-    } = await request.validateUsing(entryValidator)
+    } = await request.validateUsing(entryHuntValidator)
     const obtainedAt = DateTime.now()
     const finalCounter = hunt.currentCounter
     const userId = user.id
