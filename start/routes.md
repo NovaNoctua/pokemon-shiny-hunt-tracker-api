@@ -54,8 +54,6 @@
 
 - Decrement a counter
 
-- Abandon a hunt
-
 - Finish a hunt
 
 - Delete a hunt

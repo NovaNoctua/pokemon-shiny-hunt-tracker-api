@@ -78,8 +78,26 @@ export default class HuntsController {
       return response.badRequest({ message: 'Cannot decrement the counter anymore.' })
     }
   }
-  async pauseTimer() {}
-  async resumeTimer() {}
+  async pauseTimer({ params, response }: HttpContext) {
+    const hunt = await Hunt.findOrFail(params.id)
+
+    const lastStopped = DateTime.now()
+    if (hunt.lastStopped && hunt.lastStopped > hunt.lastStarted) {
+      return response.badRequest({ message: 'You cannot pause a hunt without resuming it first' })
+    }
+
+    const timer = hunt.timer + lastStopped.diff(hunt.lastStarted, 'seconds').seconds
+
+    await hunt.merge({ lastStopped, timer }).save()
+    return response.ok({ message: 'Timer paused.', hunt: hunt })
+  }
+  async resumeTimer({ params, response }: HttpContext) {
+    const hunt = await Hunt.findOrFail(params.id)
+    const lastStarted = DateTime.now()
+
+    await hunt.merge({ lastStarted }).save()
+
+    return response.ok({ message: 'Timer resumed.', hunt: hunt })
+  }
   async finish() {}
-  async abandon() {}
 }
