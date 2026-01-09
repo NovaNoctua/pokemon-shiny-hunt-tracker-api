@@ -1,7 +1,7 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'currently_huntings'
+  protected tableName = 'entries'
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
@@ -9,11 +9,11 @@ export default class extends BaseSchema {
       table.increments('id')
 
       // Attributes
-      table.timestamp('started_at')
-      table.timestamp('last_started')
-      table.timestamp('last_stopped')
-      table.integer('timer')
-      table.integer('current_counter')
+      table.string('nickname')
+      table.timestamp('obtained_at')
+      table.integer('final_counter')
+      table.text('notes')
+      table.integer('phase_number')
       table.timestamp('created_at')
       table.timestamp('updated_at')
 

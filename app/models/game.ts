@@ -1,9 +1,10 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
-import type { HasMany } from '@adonisjs/lucid/types/relations'
-import CollectionEntry from './collection_entry.js'
-import CurrentlyHunting from './currently_hunting.js'
+import { BaseModel, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
+import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
+import Entry from './entry.js'
+import Hunt from './hunt.js'
 import MethodsInGame from './methods_in_game.js'
+import Method from './method.js'
 
 export default class Game extends BaseModel {
   // Attributes
@@ -29,12 +30,19 @@ export default class Game extends BaseModel {
   declare updatedAt: DateTime
 
   // Relations
-  @hasMany(() => CollectionEntry)
-  declare collectionEntries: HasMany<typeof CollectionEntry>
+  @hasMany(() => Entry)
+  declare entries: HasMany<typeof Entry>
 
-  @hasMany(() => CurrentlyHunting)
-  declare currentlyHunting: HasMany<typeof CurrentlyHunting>
+  @hasMany(() => Hunt)
+  declare hunts: HasMany<typeof Hunt>
 
   @hasMany(() => MethodsInGame)
   declare methodsInGame: HasMany<typeof MethodsInGame>
+
+  @manyToMany(() => Method, {
+    pivotTable: 'methods_in_games', // Your middle table name
+    pivotForeignKey: 'game_id', // Column in middle table pointing to Game
+    pivotRelatedForeignKey: 'method_id', // Column in middle table pointing to Method
+  })
+  declare methods: ManyToMany<typeof Method>
 }

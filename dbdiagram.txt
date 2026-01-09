@@ -39,8 +39,8 @@ Table t_methods_in_game {
 }
 
 // 6. Active Hunts (What the user is doing NOW)
-Table t_currently_hunting {
-  currently_hunting_id int [pk, increment]
+Table t_hunt {
+  hunt_id int [pk, increment]
   started_at date
   current_counter int [default: 0]
   status varchar(20) // 'active', 'paused', etc.
@@ -53,8 +53,8 @@ Table t_currently_hunting {
 }
 
 // 7. Collection (Completed Hunts / History)
-Table t_collectionentry {
-  collectionentry_id int [pk, increment]
+Table t_entry {
+  entry_id int [pk, increment]
   nickname varchar(50)
   obtained_at date
   final_counter int
@@ -76,13 +76,13 @@ Ref: t_methods_in_game.game_id > t_game.game_id
 Ref: t_methods_in_game.method_id > t_method.method_id
 
 // Connecting Active Hunts
-Ref: t_currently_hunting.user_id > t_user.user_id
-Ref: t_currently_hunting.pokemon_id > t_pokemon.pokemon_id
-Ref: t_currently_hunting.game_id > t_game.game_id
-Ref: t_currently_hunting.method_id > t_method.method_id
+Ref: t_hunt.user_id > t_user.user_id
+Ref: t_hunt.pokemon_id > t_pokemon.pokemon_id
+Ref: t_hunt.game_id > t_game.game_id
+Ref: t_hunt.method_id > t_method.method_id
 
 // Connecting Collection Entries
-Ref: t_collectionentry.user_id > t_user.user_id
-Ref: t_collectionentry.pokemon_id > t_pokemon.pokemon_id
-Ref: t_collectionentry.game_id > t_game.game_id
-Ref: t_collectionentry.method_id > t_method.method_id
+Ref: t_entry.user_id > t_user.user_id
+Ref: t_entry.pokemon_id > t_pokemon.pokemon_id
+Ref: t_entry.game_id > t_game.game_id
+Ref: t_entry.method_id > t_method.method_id

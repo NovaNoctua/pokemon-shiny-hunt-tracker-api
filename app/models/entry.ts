@@ -1,30 +1,30 @@
 import { DateTime } from 'luxon'
 import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
-import User from './user.js'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
-import Pokemon from './pokemon.js'
 import Game from './game.js'
 import Method from './method.js'
+import Pokemon from './pokemon.js'
+import User from './user.js'
 
-export default class CurrentlyHunting extends BaseModel {
+export default class Entry extends BaseModel {
   // Attributes
   @column({ isPrimary: true })
   declare id: number
 
   @column()
-  declare startedAt: DateTime
+  declare nickname: string
+
+  @column.dateTime()
+  declare obtainedAt: DateTime
 
   @column()
-  declare lastStarted: DateTime
+  declare finalCounter: number
 
   @column()
-  declare lastStopped: DateTime
+  declare notes: string
 
   @column()
-  declare timer: number
-
-  @column()
-  declare currentCounter: number
+  declare phaseNumber: number
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

@@ -39,6 +39,9 @@ router.use([() => import('@adonisjs/core/bodyparser_middleware'), () => import('
  * the routes or the routes group.
  */
 export const middleware = router.named({
+  verifyUserOwnershipHunt: () => import('#middleware/verify_user_ownership_hunt_middleware'),
+  verifyUserOwnershipEntry: () => import('#middleware/verify_user_ownership_entry_middleware'),
+  ensureUserCollection: () => import('#middleware/ensure_user_collection_middleware'),
   guest: () => import('#middleware/guest_middleware'),
   auth: () => import('#middleware/auth_middleware')
 })
