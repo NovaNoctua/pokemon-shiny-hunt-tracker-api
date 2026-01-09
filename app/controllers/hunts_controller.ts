@@ -47,7 +47,7 @@ export default class HuntsController {
     })
 
     if (!hunt.id) {
-      return response.internalServerError('Internal server error')
+      return response.internalServerError('Internal server error.')
     }
 
     return response.ok(hunt)
@@ -57,10 +57,27 @@ export default class HuntsController {
 
     await hunt.delete()
 
-    return response.ok({ message: 'Hunt successfully deleted', hunt: hunt })
+    return response.ok({ message: 'Hunt successfully deleted.', hunt: hunt })
   }
-  async incrementCounter() {}
-  async decrementCounter() {}
+  async incrementCounter({ params, response }: HttpContext) {
+    const hunt = await Hunt.findOrFail(params.id)
+    const currentCounter = hunt.currentCounter + 1
+
+    await hunt.merge({ currentCounter }).save()
+
+    return response.ok({ message: 'Counter incremented.', counter: hunt.currentCounter })
+  }
+  async decrementCounter({ params, response }: HttpContext) {
+    const hunt = await Hunt.findOrFail(params.id)
+
+    if (hunt.currentCounter > 0) {
+      const currentCounter = hunt.currentCounter - 1
+      await hunt.merge({ currentCounter }).save()
+      return response.ok({ message: 'Counter decremented.', counter: hunt.currentCounter })
+    } else {
+      return response.badRequest({ message: 'Cannot decrement the counter anymore.' })
+    }
+  }
   async pauseTimer() {}
   async resumeTimer() {}
   async finish() {}
