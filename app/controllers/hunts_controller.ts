@@ -13,11 +13,9 @@ export default class HuntsController {
     return response.ok(hunts)
   }
 
-  async show({ auth, params, response }: HttpContext) {
-    const user = auth.user!
-    const userId = user.id
-
-    const hunt = await Hunt.query().where('id', params.id).where('user_id', userId).firstOrFail()
+  async show({ params, response }: HttpContext) {
+    const hunt = await Hunt.findOrFail(params.id)
+    // const hunt = await Hunt.query().where('id', params.id).firstOrFail()
 
     await hunt.load('game')
     await hunt.load('method')
@@ -54,7 +52,13 @@ export default class HuntsController {
 
     return response.ok(hunt)
   }
-  async destroy() {}
+  async destroy({ params, response }: HttpContext) {
+    const hunt = await Hunt.findOrFail(params.id)
+
+    await hunt.delete()
+
+    return response.ok({ message: 'Hunt successfully deleted', hunt: hunt })
+  }
   async incrementCounter() {}
   async decrementCounter() {}
   async pauseTimer() {}
