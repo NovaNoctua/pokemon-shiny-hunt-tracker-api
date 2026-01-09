@@ -83,10 +83,7 @@ router
       .patch('/:id/resume', [HuntsController, 'resumeTimer'])
       .use(middleware.verifyUserOwnershipHunt())
     router
-      .patch('/:id/finish', [HuntsController, 'finish'])
-      .use(middleware.verifyUserOwnershipHunt())
-    router
-      .patch('/:id/abandon', [HuntsController, 'abandon'])
+      .post('/:id/finish', [HuntsController, 'finish'])
       .use(middleware.verifyUserOwnershipHunt())
   })
   .prefix('hunts')
