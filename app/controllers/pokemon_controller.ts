@@ -1,11 +1,11 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Pokemon from '#models/pokemon'
+import { pokemonQueryValidator } from '#validators/pokemon_query'
 
 export default class PokemonController {
   async index({ request, response }: HttpContext) {
-    const page = request.input('page', 1)
-
-    const limit = 20
+    const { page = 1, limit = 20 } = await request.validateUsing(pokemonQueryValidator)
+    // const page = request.input('page', 1)
 
     const pokemon = await Pokemon.query().orderBy('id', 'asc').paginate(page, limit)
 
