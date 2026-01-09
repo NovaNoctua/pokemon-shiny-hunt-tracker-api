@@ -1,6 +1,6 @@
 import Entry from '#models/entry'
 import Hunt from '#models/hunt'
-import { entryHuntValidator, entryValidator } from '#validators/entry'
+import { entryHuntValidator } from '#validators/entry'
 import { huntValidator } from '#validators/hunt'
 import type { HttpContext } from '@adonisjs/core/http'
 import { DateTime } from 'luxon'

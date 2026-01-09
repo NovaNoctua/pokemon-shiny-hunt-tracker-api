@@ -41,7 +41,7 @@ export default class UsersController {
       })
       .save()
 
-    return response.ok({ message: 'Changes successfully done' })
+    return response.ok({ message: 'Changes successfully done', user: ownUser })
   }
   async destroy({ auth, response }: HttpContext) {
     const userId = auth.user!.id
@@ -50,6 +50,6 @@ export default class UsersController {
 
     await user.delete()
 
-    return response.ok({ message: 'User successfully deleted' })
+    return response.ok({ message: 'User successfully deleted', user: user.serialize })
   }
 }

@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 
 import Entry from '#models/entry'
-import { entryValidator } from '#validators/entry'
+import { entryUpdateValidator, entryValidator } from '#validators/entry'
 
 export default class EntriesController {
   async index({ auth, response }: HttpContext) {
@@ -52,5 +52,26 @@ export default class EntriesController {
     }
 
     return response.ok(entry)
+  }
+
+  async update({ params, request, response }: HttpContext) {
+    const entry = await Entry.findOrFail(params.id)
+
+    const { nickname, obtainedAt, finalCounter, notes, phaseNumber, gameId, methodId } =
+      await request.validateUsing(entryUpdateValidator)
+
+    await entry
+      .merge({ nickname, obtainedAt, finalCounter, notes, phaseNumber, gameId, methodId })
+      .save()
+
+    return response.ok(entry)
+  }
+
+  async destroy({ params, response }: HttpContext) {
+    const entry = await Entry.findOrFail(params.id)
+
+    await entry.delete()
+
+    return response.ok({ message: 'Entry successfully deleted', entry: entry })
   }
 }
