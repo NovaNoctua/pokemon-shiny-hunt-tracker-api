@@ -11,14 +11,14 @@ export default class Hunt extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
-  @column()
+  @column.dateTime()
   declare startedAt: DateTime
 
-  @column()
+  @column.dateTime()
   declare lastStarted: DateTime
 
-  @column()
-  declare lastStopped: DateTime
+  @column.dateTime()
+  declare lastStopped: DateTime | null
 
   @column()
   declare timer: number

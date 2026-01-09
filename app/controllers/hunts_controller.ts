@@ -1,5 +1,7 @@
 import Hunt from '#models/hunt'
+import { huntValidator } from '#validators/hunt'
 import type { HttpContext } from '@adonisjs/core/http'
+import { DateTime } from 'luxon'
 
 export default class HuntsController {
   async index({ auth, response }: HttpContext) {
@@ -15,16 +17,42 @@ export default class HuntsController {
     const user = auth.user!
     const userId = user.id
 
-    const hunt = await Hunt.query().where('id', params.id).where('user_id', userId).first()
+    const hunt = await Hunt.query().where('id', params.id).where('user_id', userId).firstOrFail()
 
-    if (hunt) {
-      return response.ok(hunt)
-    } else {
-      return response.notFound()
-    }
+    await hunt.load('game')
+    await hunt.load('method')
+    await hunt.load('pokemon')
+
+    return response.ok(hunt)
   }
   async store({ request, auth, response }: HttpContext) {
-    const { pokemonId, gameId, methodId }
+    const user = auth.user!
+
+    const { pokemonId, gameId, methodId } = await request.validateUsing(huntValidator)
+    const userId = user.id
+    const startedAt = DateTime.now()
+    const lastStarted = startedAt
+    const lastStopped = null
+    const timer = 0
+    const currentCounter = 0
+
+    const hunt = await Hunt.create({
+      startedAt,
+      lastStarted,
+      lastStopped,
+      timer,
+      currentCounter,
+      userId,
+      pokemonId,
+      gameId,
+      methodId,
+    })
+
+    if (!hunt.id) {
+      return response.internalServerError('Internal server error')
+    }
+
+    return response.ok(hunt)
   }
   async destroy() {}
   async incrementCounter() {}

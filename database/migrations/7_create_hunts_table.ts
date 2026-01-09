@@ -11,7 +11,7 @@ export default class extends BaseSchema {
       // Attributes
       table.timestamp('started_at')
       table.timestamp('last_started')
-      table.timestamp('last_stopped')
+      table.timestamp('last_stopped').nullable()
       table.integer('timer')
       table.integer('current_counter')
       table.timestamp('created_at')

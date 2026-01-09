@@ -68,7 +68,7 @@ router
   .group(() => {
     router.get('/', [HuntsController, 'index']).use(middleware.auth())
     router.get('/:id', [HuntsController, 'show']).use(middleware.verifyUserOwnershipHunt())
-    router.post('/', [HuntsController, 'store']).use(middleware.verifyUserOwnershipHunt())
+    router.post('/', [HuntsController, 'store']).use(middleware.auth())
     router.delete('/:id', [HuntsController, 'destroy']).use(middleware.verifyUserOwnershipHunt())
     router
       .patch('/:id/increment', [HuntsController, 'incrementCounter'])
@@ -97,7 +97,7 @@ router
   .group(() => {
     router.get('/', [EntriesController, 'index']).use(middleware.auth())
     router.get('/:id', [EntriesController, 'show']).use(middleware.verifyUserOwnershipEntry())
-    router.post('/', [EntriesController, 'store']).use(middleware.verifyUserOwnershipEntry())
+    router.post('/', [EntriesController, 'store']).use(middleware.auth())
     router.patch('/:id', [EntriesController, 'update']).use(middleware.verifyUserOwnershipEntry())
     router.delete('/:id', [EntriesController, 'destroy']).use(middleware.verifyUserOwnershipEntry())
   })

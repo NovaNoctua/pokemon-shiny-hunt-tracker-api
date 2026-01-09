@@ -14,7 +14,7 @@ export default class Entry extends BaseModel {
   @column()
   declare nickname: string
 
-  @column.date()
+  @column.dateTime()
   declare obtainedAt: DateTime
 
   @column()
