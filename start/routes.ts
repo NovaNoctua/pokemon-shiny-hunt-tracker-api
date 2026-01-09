@@ -15,7 +15,7 @@ const PokemonController = () => import('#controllers/pokemon_controller')
 const GamesController = () => import('#controllers/games_controller')
 const MethodsController = () => import('#controllers/methods_controller')
 const HuntsController = () => import('#controllers/hunts_controller')
-const EntriesController = () => import('#controllers/entries_controller')
+const CollectionController = () => import('#controllers/collection_controller')
 
 // Authentication
 router
@@ -89,13 +89,13 @@ router
   .prefix('hunts')
 // Create and use the middleware that makes sure the user is the one who created the collection
 
-// Collection Entries CRUD
+// Captured Shinies Collection CRUD
 router
   .group(() => {
-    router.get('/', [EntriesController, 'index']).use(middleware.auth())
-    router.get('/:id', [EntriesController, 'show']).use(middleware.verifyUserOwnershipEntry())
-    router.post('/', [EntriesController, 'store']).use(middleware.auth())
-    router.patch('/:id', [EntriesController, 'update']).use(middleware.verifyUserOwnershipEntry())
-    router.delete('/:id', [EntriesController, 'destroy']).use(middleware.verifyUserOwnershipEntry())
+    router.get('/', [CollectionController, 'index']).use(middleware.auth())
+    router.get('/:id', [CollectionController, 'show']).use(middleware.verifyOwnershipCapturedShiny())
+    router.post('/', [CollectionController, 'store']).use(middleware.auth())
+    router.patch('/:id', [CollectionController, 'update']).use(middleware.verifyOwnershipCapturedShiny())
+    router.delete('/:id', [CollectionController, 'destroy']).use(middleware.verifyOwnershipCapturedShiny())
   })
-  .prefix('entries')
+  .prefix('collection')

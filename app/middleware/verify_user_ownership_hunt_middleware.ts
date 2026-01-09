@@ -11,8 +11,6 @@ export default class VerifyUserOwnershipHuntMiddleware {
     if (!isAuthenticated || !auth.user) {
       return response.unauthorized({
         message: 'You must be logged in',
-        test: isAuthenticated,
-        test2: auth.user,
       })
     }
 

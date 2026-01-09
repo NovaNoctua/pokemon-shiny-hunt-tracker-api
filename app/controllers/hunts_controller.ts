@@ -1,6 +1,6 @@
-import Entry from '#models/entry'
+import CapturedShiny from '#models/captured_shiny'
 import Hunt from '#models/hunt'
-import { entryHuntValidator } from '#validators/entry'
+import { capturedShinyHuntValidator } from '#validators/captured_shiny'
 import { huntValidator } from '#validators/hunt'
 import type { HttpContext } from '@adonisjs/core/http'
 import { DateTime } from 'luxon'
@@ -147,7 +147,7 @@ export default class HuntsController {
       nickname = hunt.pokemon.name,
       notes = '',
       phaseNumber = 0,
-    } = await request.validateUsing(entryHuntValidator)
+    } = await request.validateUsing(capturedShinyHuntValidator)
     const obtainedAt = DateTime.now()
     const finalCounter = hunt.currentCounter
     const userId = user.id
@@ -155,7 +155,7 @@ export default class HuntsController {
     const gameId = hunt.gameId
     const methodId = hunt.methodId
 
-    const entry = await Entry.create({
+    const capturedShiny = await CapturedShiny.create({
       nickname,
       notes,
       phaseNumber,
@@ -167,12 +167,12 @@ export default class HuntsController {
       methodId,
     })
 
-    if (!entry.id) {
+    if (!capturedShiny.id) {
       return response.internalServerError('Internal server error.')
     }
 
     await hunt.delete()
 
-    return response.ok(entry)
+    return response.ok(capturedShiny)
   }
 }

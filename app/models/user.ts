@@ -3,7 +3,7 @@ import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
-import Entry from './entry.js'
+import CapturedShiny from './captured_shiny.js'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import Hunt from './hunt.js'
 
@@ -39,8 +39,8 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare updatedAt: DateTime | null
 
   // Relations
-  @hasMany(() => Entry)
-  declare entries: HasMany<typeof Entry>
+  @hasMany(() => CapturedShiny)
+  declare capturedShinies: HasMany<typeof CapturedShiny>
 
   @hasMany(() => Hunt)
   declare hunts: HasMany<typeof Hunt>

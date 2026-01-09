@@ -1,8 +1,8 @@
-import Entry from '#models/entry'
+import CapturedShiny from '#models/captured_shiny'
 import type { HttpContext } from '@adonisjs/core/http'
 import type { NextFn } from '@adonisjs/core/types/http'
 
-export default class VerifyUserOwnershipEntryMiddleware {
+export default class VerifyOwnershipCapturedShinyMiddleware {
   // Make sure the connected user owns the collection
   async handle(ctx: HttpContext, next: NextFn) {
     const { auth, response, params } = ctx
@@ -15,8 +15,8 @@ export default class VerifyUserOwnershipEntryMiddleware {
       })
     }
 
-    const entry = await Entry.findOrFail(params.id)
-    const userId = entry.userId
+    const capturedShiny = await CapturedShiny.findOrFail(params.id)
+    const userId = capturedShiny.userId
 
     if (auth.user.id !== userId) {
       return response.forbidden({ message: 'You do not have permission to access this resource' })

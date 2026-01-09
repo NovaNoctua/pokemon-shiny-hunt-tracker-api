@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
-import Entry from './entry.js'
+import CapturedShiny from './captured_shiny.js'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import Hunt from './hunt.js'
 
@@ -34,8 +34,8 @@ export default class Pokemon extends BaseModel {
   declare updatedAt: DateTime
 
   // Relations
-  @hasMany(() => Entry)
-  declare entries: HasMany<typeof Entry>
+  @hasMany(() => CapturedShiny)
+  declare capturedShinies: HasMany<typeof CapturedShiny>
 
   @hasMany(() => Hunt)
   declare hunts: HasMany<typeof Hunt>

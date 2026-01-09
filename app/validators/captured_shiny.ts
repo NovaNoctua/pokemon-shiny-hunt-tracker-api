@@ -1,7 +1,7 @@
 import vine from '@vinejs/vine'
 import { DateTime } from 'luxon'
 
-export const entryValidator = vine.compile(
+export const capturedShinyValidator = vine.compile(
   vine.object({
     nickname: vine.string().maxLength(16),
     notes: vine.string().maxLength(512),
@@ -23,7 +23,7 @@ export const entryValidator = vine.compile(
   })
 )
 
-export const entryUpdateValidator = vine.compile(
+export const capturedShinyUpdateValidator = vine.compile(
   vine.object({
     nickname: vine.string().maxLength(16).optional(),
     obtainedAt: vine
@@ -50,7 +50,7 @@ export const entryUpdateValidator = vine.compile(
   })
 )
 
-export const entryHuntValidator = vine.compile(
+export const capturedShinyHuntValidator = vine.compile(
   vine.object({
     nickname: vine.string().maxLength(16),
     notes: vine.string().maxLength(512),
