@@ -58,6 +58,7 @@ export default class UsersController {
     const user = await User.findOrFail(userId)
 
     await user.delete()
+    await auth.use('web').logout()
 
     return response.ok({ message: 'User successfully deleted', user: user.serialize })
   }
