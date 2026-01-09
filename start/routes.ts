@@ -98,4 +98,4 @@ router
     router.patch('/:id', [EntriesController, 'update']).use(middleware.verifyUserOwnershipEntry())
     router.delete('/:id', [EntriesController, 'destroy']).use(middleware.verifyUserOwnershipEntry())
   })
-  .prefix('collection')
+  .prefix('entries')
