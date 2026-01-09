@@ -6,6 +6,9 @@ import type { HttpContext } from '@adonisjs/core/http'
 import { DateTime } from 'luxon'
 
 export default class HuntsController {
+  /**
+   * List all hunts for the authenticated user
+   */
   async index({ auth, response }: HttpContext) {
     const user = auth.user!
     const userId = user.id
@@ -19,6 +22,9 @@ export default class HuntsController {
     return response.ok(hunts)
   }
 
+  /**
+   * Show a single hunt by ID
+   */
   async show({ params, response }: HttpContext) {
     const hunt = await Hunt.findOrFail(params.id)
     // const hunt = await Hunt.query().where('id', params.id).firstOrFail()
@@ -30,6 +36,9 @@ export default class HuntsController {
     return response.ok(hunt)
   }
 
+  /**
+   * Create a new hunt
+   */
   async store({ request, auth, response }: HttpContext) {
     const user = auth.user!
 
@@ -60,6 +69,9 @@ export default class HuntsController {
     return response.ok(hunt)
   }
 
+  /**
+   * Delete a hunt
+   */
   async destroy({ params, response }: HttpContext) {
     const hunt = await Hunt.findOrFail(params.id)
 
@@ -68,6 +80,9 @@ export default class HuntsController {
     return response.ok({ message: 'Hunt successfully deleted.', hunt: hunt })
   }
 
+  /**
+   * Increment the hunt counter
+   */
   async incrementCounter({ params, response }: HttpContext) {
     const hunt = await Hunt.findOrFail(params.id)
     const currentCounter = hunt.currentCounter + 1
@@ -77,6 +92,9 @@ export default class HuntsController {
     return response.ok({ message: 'Counter incremented.', counter: hunt.currentCounter })
   }
 
+  /**
+   * Decrement the hunt counter
+   */
   async decrementCounter({ params, response }: HttpContext) {
     const hunt = await Hunt.findOrFail(params.id)
 
@@ -89,6 +107,9 @@ export default class HuntsController {
     }
   }
 
+  /**
+   * Pause the hunt timer
+   */
   async pauseTimer({ params, response }: HttpContext) {
     const hunt = await Hunt.findOrFail(params.id)
 
@@ -103,6 +124,9 @@ export default class HuntsController {
     return response.ok({ message: 'Timer paused.', hunt: hunt })
   }
 
+  /**
+   * Resume the hunt timer
+   */
   async resumeTimer({ params, response }: HttpContext) {
     const hunt = await Hunt.findOrFail(params.id)
     const lastStarted = DateTime.now()
@@ -112,6 +136,9 @@ export default class HuntsController {
     return response.ok({ message: 'Timer resumed.', hunt: hunt })
   }
 
+  /**
+   * Finish a hunt and convert it to an entry
+   */
   async finish({ auth, params, request, response }: HttpContext) {
     const user = auth.user!
     const hunt = await Hunt.findOrFail(params.id)

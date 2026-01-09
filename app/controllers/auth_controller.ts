@@ -5,6 +5,9 @@ import type { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
 
 export default class AuthController {
+  /**
+   * Handle user registration
+   */
   async register({ request, response }: HttpContext) {
     const { username, email, password, profilePicture } =
       await request.validateUsing(registerValidator)
@@ -32,6 +35,9 @@ export default class AuthController {
     return response.ok({ message: 'Registered successfully' })
   }
 
+  /**
+   * Handle user login
+   */
   async login({ request, auth, response }: HttpContext) {
     const { username, password } = await request.validateUsing(loginValidator)
 
@@ -44,6 +50,9 @@ export default class AuthController {
     }
   }
 
+  /**
+   * Handle user logout
+   */
   async logout({ auth, response }: HttpContext) {
     await auth.use('web').logout()
     return response.ok({ message: 'Logged out successfully' })

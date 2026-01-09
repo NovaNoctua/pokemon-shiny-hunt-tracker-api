@@ -5,6 +5,9 @@ import type { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
 
 export default class UsersController {
+  /**
+   * Get the authenticated user's profile
+   */
   async show({ auth, response }: HttpContext) {
     const user = auth.user!
     const userId = user.id
@@ -13,6 +16,9 @@ export default class UsersController {
 
     return response.ok(ownUser)
   }
+  /**
+   * Update the authenticated user's profile
+   */
   async update({ auth, request, response }: HttpContext) {
     const user = auth.user!
     const userId = user.id
@@ -43,6 +49,9 @@ export default class UsersController {
 
     return response.ok({ message: 'Changes successfully done', user: ownUser })
   }
+  /**
+   * Delete the authenticated user's account
+   */
   async destroy({ auth, response }: HttpContext) {
     const userId = auth.user!.id
 

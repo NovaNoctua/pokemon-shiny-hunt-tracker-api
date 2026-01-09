@@ -4,6 +4,9 @@ import Entry from '#models/entry'
 import { entryUpdateValidator, entryValidator } from '#validators/entry'
 
 export default class EntriesController {
+  /**
+   * List all entries for the authenticated user
+   */
   async index({ auth, response }: HttpContext) {
     const user = auth.user!
     const userId = user.id
@@ -17,6 +20,9 @@ export default class EntriesController {
     return response.ok(entries)
   }
 
+  /**
+   * Show a single entry by ID
+   */
   async show({ params, response }: HttpContext) {
     const entry = await Entry.findOrFail(params.id)
 
@@ -27,6 +33,9 @@ export default class EntriesController {
     return response.ok(entry)
   }
 
+  /**
+   * Create a new entry
+   */
   async store({ auth, request, response }: HttpContext) {
     const user = auth.user!
 
@@ -54,6 +63,9 @@ export default class EntriesController {
     return response.ok(entry)
   }
 
+  /**
+   * Update an existing entry
+   */
   async update({ params, request, response }: HttpContext) {
     const entry = await Entry.findOrFail(params.id)
 
@@ -67,6 +79,9 @@ export default class EntriesController {
     return response.ok(entry)
   }
 
+  /**
+   * Delete an entry
+   */
   async destroy({ params, response }: HttpContext) {
     const entry = await Entry.findOrFail(params.id)
 
