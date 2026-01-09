@@ -66,29 +66,39 @@ router
 // Currently hunting CRUD
 router
   .group(() => {
-    router.get('/', [HuntsController, 'index'])
-    router.get('/:id', [HuntsController, 'show'])
-    router.post('/', [HuntsController, 'store'])
-    router.delete('/:id', [HuntsController, 'destroy'])
-    router.patch('/:id/increment', [HuntsController, 'incrementCounter'])
-    router.patch('/:id/decrement', [HuntsController, 'decrementCounter'])
-    router.patch('/:id/pause', [HuntsController, 'pauseTimer'])
-    router.patch('/:id/resume', [HuntsController, 'resumeTimer'])
-    router.patch('/:id/finish', [HuntsController, 'finish'])
-    router.patch('/:id/abandon', [HuntsController, 'abandon'])
+    router.get('/', [HuntsController, 'index']).use(middleware.auth())
+    router.get('/:id', [HuntsController, 'show']).use(middleware.verifyUserOwnershipHunt())
+    router.post('/', [HuntsController, 'store']).use(middleware.verifyUserOwnershipHunt())
+    router.delete('/:id', [HuntsController, 'destroy']).use(middleware.verifyUserOwnershipHunt())
+    router
+      .patch('/:id/increment', [HuntsController, 'incrementCounter'])
+      .use(middleware.verifyUserOwnershipHunt())
+    router
+      .patch('/:id/decrement', [HuntsController, 'decrementCounter'])
+      .use(middleware.verifyUserOwnershipHunt())
+    router
+      .patch('/:id/pause', [HuntsController, 'pauseTimer'])
+      .use(middleware.verifyUserOwnershipHunt())
+    router
+      .patch('/:id/resume', [HuntsController, 'resumeTimer'])
+      .use(middleware.verifyUserOwnershipHunt())
+    router
+      .patch('/:id/finish', [HuntsController, 'finish'])
+      .use(middleware.verifyUserOwnershipHunt())
+    router
+      .patch('/:id/abandon', [HuntsController, 'abandon'])
+      .use(middleware.verifyUserOwnershipHunt())
   })
   .prefix('hunts')
-  // Create and use the middleware that makes sure the user is the one who created the collection
-  .use(middleware.auth())
+// Create and use the middleware that makes sure the user is the one who created the collection
 
 // Collection Entries CRUD
 router
   .group(() => {
-    router.get('/', [EntriesController, 'index'])
-    router.get('/:id', [EntriesController, 'show'])
-    router.post('/', [EntriesController, 'store'])
-    router.patch('/:id', [EntriesController, 'update'])
-    router.delete('/:id', [EntriesController, 'destroy'])
+    router.get('/', [EntriesController, 'index']).use(middleware.auth())
+    router.get('/:id', [EntriesController, 'show']).use(middleware.verifyUserOwnershipEntry())
+    router.post('/', [EntriesController, 'store']).use(middleware.verifyUserOwnershipEntry())
+    router.patch('/:id', [EntriesController, 'update']).use(middleware.verifyUserOwnershipEntry())
+    router.delete('/:id', [EntriesController, 'destroy']).use(middleware.verifyUserOwnershipEntry())
   })
   .prefix('collection')
-  .use(middleware.verifyUserOwnershipEntry())

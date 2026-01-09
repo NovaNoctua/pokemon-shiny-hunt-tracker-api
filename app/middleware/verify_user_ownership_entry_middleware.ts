@@ -7,17 +7,16 @@ export default class VerifyUserOwnershipEntryMiddleware {
   async handle(ctx: HttpContext, next: NextFn) {
     const { auth, response, params } = ctx
 
-    if (!auth.isAuthenticated || !auth.user) {
-      return response.unauthorized({ message: 'You must be logged in' })
+    const isAuthenticated = await auth.check()
+
+    if (!isAuthenticated || !auth.user) {
+      return response.unauthorized({
+        message: 'You must be logged in',
+      })
     }
 
     const entry = await Entry.findOrFail(params.id)
     const userId = entry.userId
-    const entryId = entry.id
-
-    if (!entryId) {
-      return response.notFound({ message: `Resource not found` })
-    }
 
     if (auth.user.id !== userId) {
       return response.forbidden({ message: 'You do not have permission to access this resource' })
