@@ -1,206 +1,104 @@
-# Pokémon Shiny Collection & Shiny Hunt Tracker
+# Pokémon Shiny Hunt Tracker API
 
-**Technical Design Document – Backend (AdonisJS)**
+A REST API built with AdonisJS to help shiny hunters track their captured shinies and active hunts.
 
----
+## Features
 
-## 1. Project Overview
+- **Authentication**: Register, Login, and Logout functionality.
+- **Shiny Collection**: specific tracking for captured/obtained shiny Pokémon.
+- **Shiny Hunts**: Track active hunts with counters, timers, and method tracking.
+- **Data**: Read-only access to Pokémon (Gen 1-9) and Game data.
+- **Security**: IDOR protection ensures users can only manage their own data.
 
-**Purpose:**
-Provide a **REST API** to manage Pokémon data, games, shiny collections, and shiny hunts. All user-specific data is handled through authenticated endpoints.
+## Tech Stack
 
-**Tech Stack:**
+- **Framework**: AdonisJS v6
+- **Language**: TypeScript
+- **Database**: MySQL
+- **Validation**: VineJS
+- **ORM**: Lucid
 
-- AdonisJS (latest stable)
-- SQLite (development), PostgreSQL/MySQL (production)
-- REST API architecture
-- Authentication & authorization using AdonisJS Auth
+## Setup Instructions
 
----
+1.  **Clone the repository**
 
-## 2. MVP Scope
+    ```bash
+    git clone <repository-url>
+    cd pokemon-shiny-hunt-tracker-api
+    ```
 
-### Included
+2.  **Install dependencies**
 
-- Pokémon database (National Dex, basic info)
-- Games database
-- Shiny collection management
-- Shiny hunt management
-- User registration/login
-- Basic statistics (counts, completion percentage)
+    ```bash
+    npm install
+    ```
 
-### Excluded
+3.  **Environment Setup**
+    Copy the example environment file:
 
-- Pokémon forms & variants
-- Social/sharing features
-- Advanced stats/analytics
+    ```bash
+    cp .env.example .env
+    ```
 
----
+    Generate app key:
 
-## 3. Core Features
+    ```bash
+    node ace generate:key
+    ```
 
-### Pokémon & Games
+4.  **Database Setup**
+    Run migrations and seed the database with Pokémon, Games, and Methods:
 
-- Static data: Pokémon (id, dex_number, name, generation, shiny_available)
-- Static data: Games (id, name, generation, version)
+    ```bash
+    node ace migration:run
+    node ace db:seed
+    ```
 
-### Shiny Collection
+5.  **Run the Server**
+    ```bash
+    npm run dev
+    ```
+    The API will be available at `http://localhost:3333`.
 
-- CRUD for user-owned shiny Pokémon
-- Track Pokémon per game
-- Optional notes
+## API Reference
 
-### Shiny Hunts
+### Authentication
 
-- CRUD for shiny hunts
-- Multiple hunts per Pokémon allowed
-- Metadata: game, method, counter, start/end dates, status
-
-### Users
-
-- Registration/login/logout
-- User-specific data (collections & hunts)
-
-### Statistics (Basic)
-
-- Total shinies owned
-- Completion percentage
-- Shiny count per game
-- Active hunts count
-
----
-
-## 4. Data Model
+- `POST /auth/register` - Create a new account
+- `POST /auth/login` - Login
+- `POST /auth/logout` - Logout (Requires Auth)
 
 ### User
 
-| Field      | Type      | Notes  |
-| ---------- | --------- | ------ |
-| id         | PK        |        |
-| username   | string    | unique |
-| email      | string    | unique |
-| password   | string    | hashed |
-| created_at | timestamp |        |
+- `GET /users/myself` - Get current user profile
+- `PATCH /users/myself` - Update profile
+- `DELETE /users/myself` - Delete account
 
-### Pokemon
+### Resources (Read-Only)
 
-| Field           | Type    | Notes  |
-| --------------- | ------- | ------ |
-| id              | PK      |        |
-| dex_number      | int     | unique |
-| name            | string  |        |
-| generation      | int     |        |
-| shiny_available | boolean |        |
-
-### Game
-
-| Field      | Type   | Notes |
-| ---------- | ------ | ----- |
-| id         | PK     |       |
-| name       | string |       |
-| generation | int    |       |
-| version    | string |       |
-
-### Entry
-
-| Field                                                   | Type         | Notes    |
-| ------------------------------------------------------- | ------------ | -------- |
-| id                                                      | PK           |          |
-| user_id                                                 | FK → User    |          |
-| pokemon_id                                              | FK → Pokemon |          |
-| game_id                                                 | FK → Game    |          |
-| obtained_at                                             | date         |          |
-| notes                                                   | text         | optional |
-| **Constraint:** unique `(user_id, pokemon_id, game_id)` |              |          |
-
-### Hunt
-
-| Field      | Type         | Notes                          |
-| ---------- | ------------ | ------------------------------ |
-| id         | PK           |                                |
-| user_id    | FK → User    |                                |
-| pokemon_id | FK → Pokemon |                                |
-| game_id    | FK → Game    |                                |
-| method     | enum         | RE, Masuda, Reset              |
-| counter    | int          | optional                       |
-| status     | enum         | active / completed / abandoned |
-| started_at | date         |                                |
-| ended_at   | date         | nullable                       |
-
----
-
-### Relationships
-
-- User → has many → Entry
-- User → has many → Hunt
-- Pokemon → has many → Entry / Hunt
-- Game → has many → Entry / Hunt
-
----
-
-## 5. API Overview
-
-### Auth
-
-- `POST /api/auth/register`
-- `POST /api/auth/login`
-- `POST /api/auth/logout`
-
-### Pokémon
-
-- `GET /api/pokemon`
-- `GET /api/pokemon/:id`
-
-### Games
-
-- `GET /api/games`
+- `GET /pokemon` - List all Pokémon
+- `GET /pokemon/:id` - Get specific Pokémon details
+- `GET /games` - List all Games
+- `GET /games/:id` - Get specific Game details
+- `GET /methods` - List all Hunting Methods
+- `GET /methods/:id` - Get specific Method details
 
 ### Shiny Collection
 
-- `GET /api/collection`
-- `POST /api/collection`
-- `DELETE /api/collection/:id`
+- `GET /collection` - List my captured shinies
+- `GET /collection/:id` - Get specific captured shiny
+- `POST /collection` - Add a shiny manually
+- `PATCH /collection/:id` - Update details (notes, dates, etc.)
+- `DELETE /collection/:id` - Remove from collection
 
-### Shiny Hunts
+### Shiny Hunts (Active)
 
-- `GET /api/hunts`
-- `POST /api/hunts`
-- `PATCH /api/hunts/:id`
-- `DELETE /api/hunts/:id`
-
----
-
-## 6. Controllers Structure
-
-```
-app/
- ├─ Controllers/
- │   ├─ AuthController.ts
- │   ├─ PokemonController.ts
- │   ├─ GameController.ts
- │   ├─ ShinyCollectionController.ts
- │   └─ ShinyHuntController.ts
- ├─ Models/
- ├─ Services/
- └─ Validators/
-```
-
----
-
-## 7. Development Roadmap
-
-1. Setup AdonisJS + DB
-2. Authentication endpoints
-3. Seed Pokémon & games data
-4. CRUD for collections & hunts
-5. Basic statistics endpoints
-6. Validation & error handling
-
----
-
-## 8. Common Pitfalls
-
-- Duplicates in collections/hunts
-- Multiple hunts for same Pokémon
-- Keeping static data separate from user data
-- Proper foreign key constraints
+- `GET /hunts` - List active hunts
+- `GET /hunts/:id` - Get hunt details
+- `POST /hunts` - Start a new hunt
+- `DELETE /hunts/:id` - Delete a hunt
+- `PATCH /hunts/:id/increment` - Increment encounter counter
+- `PATCH /hunts/:id/decrement` - Decrement encounter counter
+- `PATCH /hunts/:id/pause` - Pause hunt timer
+- `PATCH /hunts/:id/resume` - Resume hunt timer
+- `POST /hunts/:id/finish` - Complete hunt (Moves it to Collection)
