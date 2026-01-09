@@ -17,7 +17,7 @@ export default class extends BaseSeeder {
 
       // Actually, PokeAPI generation names are roman numerals.
       // Easier: Parse the ID from the URL: https://pokeapi.co/api/v2/generation/1/
-      const genId = parseInt(
+      const genId = Number.parseInt(
         groupDetails.generation.url
           .split('/')
           .filter((s: any) => s)

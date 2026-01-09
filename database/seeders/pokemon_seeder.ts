@@ -39,7 +39,7 @@ export default class extends BaseSeeder {
           // Determine Generation number from name "generation-i" -> 1, "generation-ii" -> 2 etc.
           // Or simpler: Extract ID from generation URL ".../generation/1/"
           const generationUrlParts = species.generation.url.split('/').filter((s: string) => s)
-          const generationId = parseInt(generationUrlParts[generationUrlParts.length - 1])
+          const generationId = Number.parseInt(generationUrlParts[generationUrlParts.length - 1])
 
           // Map Types
           const type1 = details.types[0]?.type?.name || 'unknown'

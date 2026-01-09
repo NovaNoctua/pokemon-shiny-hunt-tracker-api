@@ -9,11 +9,21 @@ export default class extends BaseSeeder {
 
     const methodsData = [
       { name: 'Random Encounter', base_odds: '1/8192', max_odds: '1/2730', gens: [1, 2, 3, 4, 5] },
-      { name: 'Random Encounter (Modern)', base_odds: '1/4096', max_odds: '1/1365', gens: [6, 7, 8, 9] },
+      {
+        name: 'Random Encounter (Modern)',
+        base_odds: '1/4096',
+        max_odds: '1/1365',
+        gens: [6, 7, 8, 9],
+      },
       { name: 'Soft Reset', base_odds: '1/8192', max_odds: '1/2730', gens: [1, 2, 3, 4, 5] },
       { name: 'Soft Reset (Modern)', base_odds: '1/4096', max_odds: '1/1365', gens: [6, 7, 8, 9] },
       { name: 'Masuda Method', base_odds: '1/1638', max_odds: '1/1638', gens: [4] }, // Gen 4 original rate
-      { name: 'Masuda Method (Modern)', base_odds: '1/683', max_odds: '1/512', gens: [5, 6, 7, 8, 9] },
+      {
+        name: 'Masuda Method (Modern)',
+        base_odds: '1/683',
+        max_odds: '1/512',
+        gens: [5, 6, 7, 8, 9],
+      },
       { name: 'Poke Radar', base_odds: '1/200', max_odds: '1/200', gens: [4, 6] },
       { name: 'Chain Fishing', base_odds: '1/100', max_odds: '1/100', gens: [6] },
       { name: 'Friend Safari', base_odds: '1/512', max_odds: '1/512', gens: [6] },

@@ -7,15 +7,15 @@
 |
 */
 
-import AuthController from '#controllers/auth_controller'
+const AuthController = () => import('#controllers/auth_controller')
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
-import UsersController from '#controllers/users_controller'
-import PokemonController from '#controllers/pokemon_controller'
-import GamesController from '#controllers/games_controller'
-import MethodsController from '#controllers/methods_controller'
-import HuntsController from '#controllers/hunts_controller'
-import EntriesController from '#controllers/entries_controller'
+const UsersController = () => import('#controllers/users_controller')
+const PokemonController = () => import('#controllers/pokemon_controller')
+const GamesController = () => import('#controllers/games_controller')
+const MethodsController = () => import('#controllers/methods_controller')
+const HuntsController = () => import('#controllers/hunts_controller')
+const EntriesController = () => import('#controllers/entries_controller')
 
 // Authentication
 router
