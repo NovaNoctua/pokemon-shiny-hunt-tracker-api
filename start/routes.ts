@@ -33,7 +33,7 @@ router
     router.patch('/', [UsersController, 'update'])
     router.delete('/', [UsersController, 'destroy'])
   })
-  .prefix('users/myself')
+  .prefix('users/me')
   .use(middleware.auth())
 
 // Pokemon read
@@ -93,9 +93,15 @@ router
 router
   .group(() => {
     router.get('/', [CollectionController, 'index']).use(middleware.auth())
-    router.get('/:id', [CollectionController, 'show']).use(middleware.verifyOwnershipCapturedShiny())
+    router
+      .get('/:id', [CollectionController, 'show'])
+      .use(middleware.verifyOwnershipCapturedShiny())
     router.post('/', [CollectionController, 'store']).use(middleware.auth())
-    router.patch('/:id', [CollectionController, 'update']).use(middleware.verifyOwnershipCapturedShiny())
-    router.delete('/:id', [CollectionController, 'destroy']).use(middleware.verifyOwnershipCapturedShiny())
+    router
+      .patch('/:id', [CollectionController, 'update'])
+      .use(middleware.verifyOwnershipCapturedShiny())
+    router
+      .delete('/:id', [CollectionController, 'destroy'])
+      .use(middleware.verifyOwnershipCapturedShiny())
   })
   .prefix('collection')
