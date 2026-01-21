@@ -28,7 +28,6 @@ export default class HuntsController {
    */
   async show({ params, response }: HttpContext) {
     const hunt = await Hunt.findOrFail(params.id)
-    // const hunt = await Hunt.query().where('id', params.id).firstOrFail()
 
     await hunt.load('game')
     await hunt.load('method')
