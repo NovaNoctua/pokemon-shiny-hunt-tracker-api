@@ -18,6 +18,7 @@ export default class HuntsController {
       .preload('game')
       .preload('method')
       .preload('pokemon')
+      .orderBy('created_at', 'desc')
 
     return response.ok(hunts)
   }
