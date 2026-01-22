@@ -129,10 +129,16 @@ export default class HuntsController {
    */
   async resumeTimer({ params, response }: HttpContext) {
     const hunt = await Hunt.findOrFail(params.id)
+
+    if (hunt.lastStopped && hunt.lastStarted > hunt.lastStopped) {
+      return response.badRequest({
+        message: 'You cannot resume a hunt without pausing it first',
+      })
+    }
+
     const lastStarted = DateTime.now()
 
     await hunt.merge({ lastStarted }).save()
-
     return response.ok({ message: 'Timer resumed.', hunt: hunt })
   }
 
