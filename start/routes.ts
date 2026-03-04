@@ -85,6 +85,9 @@ router
     router
       .post('/:id/finish', [HuntsController, 'finish'])
       .use(middleware.verifyUserOwnershipHunt())
+    router
+      .patch('/:id/sync', [HuntsController, 'sync'])
+      .use(middleware.verifyUserOwnershipHunt())
   })
   .prefix('hunts')
 // Create and use the middleware that makes sure the user is the one who created the collection
