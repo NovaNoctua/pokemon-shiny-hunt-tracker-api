@@ -143,6 +143,49 @@ export default class HuntsController {
   }
 
   /**
+   * Sync the hunt counter and timer from frontend
+   */
+  async sync({ params, request, response }: HttpContext) {
+    const hunt = await Hunt.findOrFail(params.id)
+    
+    // We expect the frontend to send the latest known state
+    const currentCounter = request.input('currentCounter')
+    const timerInput = request.input('timer')
+    const isPaused = request.input('isPaused')
+
+    let updateData: any = {}
+
+    if (currentCounter !== undefined) {
+      updateData.currentCounter = currentCounter
+    }
+
+    if (timerInput !== undefined) {
+      updateData.timer = timerInput
+    }
+
+    if (isPaused !== undefined) {
+      const now = DateTime.now()
+      if (isPaused === true) {
+        // Only stop if currently running
+        if (!hunt.lastStopped || hunt.lastStarted > hunt.lastStopped) {
+          updateData.lastStopped = now
+        }
+      } else {
+        // Only start if currently stopped
+        if (hunt.lastStopped && hunt.lastStopped > hunt.lastStarted) {
+          updateData.lastStarted = now
+        }
+      }
+    }
+
+    if (Object.keys(updateData).length > 0) {
+      await hunt.merge(updateData).save()
+    }
+
+    return response.ok({ message: 'Hunt synced.', hunt })
+  }
+
+  /**
    * Finish a hunt and convert it to an entry
    */
   async finish({ auth, params, request, response }: HttpContext) {
