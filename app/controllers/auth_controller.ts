@@ -21,7 +21,7 @@ export default class AuthController {
 
       profilePicturePath = `uploads/profilePictures/${fileName}`
     } else {
-      profilePicturePath = `default/profilePicture.png`
+      profilePicturePath = `uploads/profilePictures/defaultProfilePicture.png`
     }
 
     await User.create({

@@ -36,6 +36,8 @@ router
   .prefix('users/me')
   .use(middleware.auth())
 
+router.get('/uploads/profilePictures/:filename', [UsersController, 'showProfilePicture'])
+
 // Pokemon read
 router
   .group(() => {

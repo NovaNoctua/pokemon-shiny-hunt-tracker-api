@@ -62,4 +62,8 @@ export default class UsersController {
 
     return response.ok({ message: 'User successfully deleted', user: user.serialize })
   }
+
+  async showProfilePicture({params, response}: HttpContext) {
+    return response.download(app.makePath('public/uploads/profilePictures/', params.filename))
+  }
 }
